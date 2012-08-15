@@ -1,3 +1,5 @@
 # phpstorm
 .idea/
+
+# nodejs
 node_modules/
