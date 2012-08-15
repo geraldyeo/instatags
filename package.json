@@ -1,0 +1,26 @@
+{
+  "name": "instawed",
+  "author": "Gerald Yeo <gerald.yeo@gmail.com>",
+  "version": "0.0.2-23",
+  "description": "Node.js proof of concept of Instagram Realtime API",
+  "main": "./app.js",
+  "licenses": [
+    {
+      "type": "BSD"
+    }
+  ],
+  "dependencies": {
+    "flatiron": "0.2.x",
+    "union": "0.3.x",
+    "socket.io": "0.9.x",
+    "qs": "0.5.x",
+    "instagram-node-lib": "0.0.9"
+  },
+  "subdomain": "instawed",
+  "engines": {
+    "node": "0.8.x"
+  },
+  "scripts": {
+    "start": "app.js"
+  }
+}
