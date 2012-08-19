@@ -64,15 +64,10 @@ app.router.path('/callback', function () {
     // photo from that geography
     this.post(function () {
         console.log('received photo notifications');
-        //console.log(this.req.body);
 
         this.req.body.forEach(function (note) {
             // Every notification object contains the id of the tag
             // that has been updated
-            // https://api.instagram.com/v1/tags/snow/media/recent
-            console.log('Object ID: ' + note.object_id);
-            console.log('Object: ' + note.object);
-
             var cb = function (medias) {
                 console.log('send to client');
                 var raw = JSON.stringify(medias);
@@ -83,31 +78,6 @@ app.router.path('/callback', function () {
                                       name    :note.object_id,
                                       complete:cb
                                   });
-
-//            var options = {
-//                host:'api.instagram.com',
-//                path:'/v1/tags/' + note.object_id + '/media/recent?' +
-//                     qs.stringify({client_id       :instagramClientId,
-//                                      client_secret:instagramClientSecret})
-//            };
-//            var cb = function (response) {
-//                var raw = '';
-//                response.on('data', function (chunk) {
-//                    raw += chunk;
-//                });
-//
-//                response.on('end', function () {
-//                    var json = JSON.parse(raw);
-//                    console.log(json);
-//
-//                    if (json['data'].length > 0) {
-//                        console.log('sending json to client');
-//                        io.sockets.emit('photo', raw);
-//                    }
-//                });
-//            };
-//            var req = https.request(options, cb);
-//            req.end();
         });
 
         this.res.writeHead(200);
