@@ -1,7 +1,7 @@
 {
   "name": "instawed",
   "author": "Gerald Yeo <gerald.yeo@gmail.com>",
-  "version": "0.0.2-25",
+  "version": "0.0.2-30",
   "description": "Node.js proof of concept of Instagram Realtime API",
   "main": "./app.js",
   "licenses": [
@@ -10,10 +10,9 @@
     }
   ],
   "dependencies": {
-    "flatiron": "0.2.x",
+    "flatiron": ">=0.2.8",
     "union": "0.3.x",
     "socket.io": "0.9.x",
-    "qs": "0.5.x",
     "instagram-node-lib": "0.0.9"
   },
   "subdomain": "instawed",

@@ -33,6 +33,7 @@
 <script src="/socket.io/socket.io.js"></script>
 <script>
     (function ($) {
+        //var socket = io.connect('http://localhost');
         var socket = io.connect('http://instawed.jit.su/');
         socket.on('photo', function (raw) {
             console.log(raw);

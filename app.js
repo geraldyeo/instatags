@@ -12,32 +12,36 @@
  */
 // requires
 var flatiron = require('flatiron'),
-    https = require('https'),
     fs = require('fs'),
-    qs = require('qs'),
     instagram = require('instagram-node-lib');
 
 // declarations
 var instagramClientId = '410dd489c1594bddb62c514cd600b590',
     instagramClientSecret = 'c625acb0b72c417eabd2a709c0854138',
-    token = null,
+    instagramRedirectUrl = 'http://instawed.jit.su/callback',
     app = flatiron.app;
 
-app.use(flatiron.plugins.http);
+app.use(flatiron.plugins.http, {
+    before:[function (req, res) {
+        fs.readFile(__dirname + '/index.html', function (err, data) {
+            if (err) {
+                res.writeHead(500);
+                return res.end('Error loading index.html');
+            }
+            res.writeHead(200);
+            res.end(data);
+        });
+    }]
+});
 app.router.configure({ 'strict':false });
 
+//----- instagram config --------------------------------------------------
 instagram.set('client_id', instagramClientId);
 instagram.set('client_secret', instagramClientSecret);
-instagram.set('callback_url', 'http://instawed.jit.su/callback');
+instagram.set('callback_url', instagramRedirectUrl);
+
 
 //----- routes --------------------------------------------------
-// index
-app.router.get('/', function () {
-    this.res.writeHead(200, {'content-type':'text/html'});
-    this.res.write(fs.readFileSync('./index.html', 'utf8'));
-    this.res.end();
-});
-
 // callback
 app.router.path('/callback', function () {
     // GET /callback
@@ -91,7 +95,6 @@ app.start(8080, function (err) {
     if (err) {
         throw err;
     }
-
     var addr = app.server.address();
     app.log.info('listening on http://' + addr.address + ':' + addr.port);
 });
