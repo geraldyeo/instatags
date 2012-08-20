@@ -21,19 +21,9 @@ var instagramClientId = '410dd489c1594bddb62c514cd600b590',
     instagramRedirectUrl = 'http://instawed.jit.su/callback',
     app = flatiron.app;
 
-app.use(flatiron.plugins.http, {
-    before:[function (req, res) {
-        fs.readFile(__dirname + '/index.html', function (err, data) {
-            if (err) {
-                res.writeHead(500);
-                return res.end('Error loading index.html');
-            }
-            res.writeHead(200);
-            res.end(data);
-        });
-    }]
-});
+app.use(flatiron.plugins.http);
 app.router.configure({ 'strict':false });
+
 
 //----- instagram config --------------------------------------------------
 instagram.set('client_id', instagramClientId);
@@ -42,6 +32,20 @@ instagram.set('callback_url', instagramRedirectUrl);
 
 
 //----- routes --------------------------------------------------
+app.router.get('/', function () {
+    var res = this.res;
+
+    fs.readFile(__dirname + '/index.html', function (err, content) {
+        if (err) {
+            res.writeHead(500);
+            return res.end('Error loading index.html');
+        }
+        res.writeHead(200, { 'content-type':'text/html' });
+        res.end(content, 'utf-8');
+    });
+});
+
+
 // callback
 app.router.path('/callback', function () {
     // GET /callback
@@ -59,13 +63,10 @@ app.router.path('/callback', function () {
         }
     });
 
+
     // POST /callback
     // Receives POST notifications when a new photo is tagged
     // with tags of your choosing.
-    // Each notification contains a geography_id, which is
-    // the identifier of the geography that has a new photo.
-    // It's necessary to perform another API call to get the last
-    // photo from that geography
     this.post(function () {
         console.log('received photo notifications');
 
@@ -86,9 +87,8 @@ app.router.path('/callback', function () {
 
         this.res.writeHead(200);
     });
-
-
 });
+
 
 // start the server
 app.start(8080, function (err) {
@@ -99,9 +99,9 @@ app.start(8080, function (err) {
     app.log.info('listening on http://' + addr.address + ':' + addr.port);
 });
 
+
 //----- socket.io --------------------------------------------------
 var io = require('socket.io').listen(app.server);
-
 io.sockets.on('connection', function (socket) {
     console.log("connected");
 });
