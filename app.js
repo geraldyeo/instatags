@@ -48,6 +48,9 @@ redisClient.on('error', function (err) {
 
 redisClient.on('ready', function () {
     console.log("redis ready");
+    redisClient.flushdb(function (err) {
+        console.log("error flushdb - " + err);
+    });
 });
 
 //----- instagram config --------------------------------------------------
