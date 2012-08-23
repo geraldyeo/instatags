@@ -13,6 +13,7 @@
 // requires
 var flatiron = require('flatiron'),
     fs = require('fs'),
+    ecstatic = require('ecstatic'),
     instagram = require('instagram-node-lib');
 
 // declarations
@@ -21,7 +22,13 @@ var instagramClientId = '410dd489c1594bddb62c514cd600b590',
     instagramRedirectUrl = 'http://instawed.jit.su/callback',
     app = flatiron.app;
 
-app.use(flatiron.plugins.http);
+app.use(flatiron.plugins.http, {
+    before:[
+        ecstatic(__dirname + '/public')
+    ],
+    after :[
+    ]
+});
 app.router.configure({ 'strict':false });
 
 
@@ -30,22 +37,22 @@ instagram.set('client_id', instagramClientId);
 instagram.set('client_secret', instagramClientSecret);
 instagram.set('callback_url', instagramRedirectUrl);
 
+var loadRecent = function (note) {
+    // Every notification object contains the id of the tag
+    // that has been updated
+    var cb = function (medias) {
+        console.log('send to client');
+        var raw = JSON.stringify(medias);
+        io.sockets.emit('photo', raw);
+    };
+
+    instagram.tags.recent({
+                              name    :note.object_id,
+                              complete:cb
+                          });
+};
 
 //----- routes --------------------------------------------------
-app.router.get('/', function () {
-    var res = this.res;
-
-    fs.readFile(__dirname + '/index.html', function (err, content) {
-        if (err) {
-            res.writeHead(500);
-            return res.end('Error loading index.html');
-        }
-        res.writeHead(200, { 'content-type':'text/html' });
-        res.end(content, 'utf-8');
-    });
-});
-
-
 // callback
 app.router.path('/callback', function () {
     // GET /callback
@@ -69,22 +76,7 @@ app.router.path('/callback', function () {
     // with tags of your choosing.
     this.post(function () {
         console.log('received photo notifications');
-
-        this.req.body.forEach(function (note) {
-            // Every notification object contains the id of the tag
-            // that has been updated
-            var cb = function (medias) {
-                console.log('send to client');
-                var raw = JSON.stringify(medias);
-                io.sockets.emit('photo', raw);
-            };
-
-            instagram.tags.recent({
-                                      name    :note.object_id,
-                                      complete:cb
-                                  });
-        });
-
+        this.req.body.forEach(loadRecent);
         this.res.writeHead(200);
     });
 });
@@ -104,4 +96,5 @@ app.start(8080, function (err) {
 var io = require('socket.io').listen(app.server);
 io.sockets.on('connection', function (socket) {
     console.log("connected");
+    loadRecent({object_id:'sgig'});
 });
