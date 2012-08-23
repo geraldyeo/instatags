@@ -1,0 +1,10 @@
+{
+    "name"    :"instawed",
+    "port"    :8080,
+    "host"    :"0.0.0.0",
+    "database":{
+        "port"    :9047,
+        "host"    :"char.redistogo.com",
+        "password":"1dad48923247fe85415a4858c5af2816"
+    }
+}

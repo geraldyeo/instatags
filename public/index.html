@@ -37,7 +37,7 @@
 <script>
     (function ($) {
         var slider = new Slider($('.photo'));
-        slider.setSize(306, 306)
+        slider.setSize(612, 612)
                 .setTheme('no-control')
                 .setTransitionFunction(SliderTransitionFunctions.squares);
 
@@ -50,7 +50,7 @@
             $.map(medias, function (media, i) {
                 photos.push({
                                 "link":media.link,
-                                "src" :media.images.low_resolution.url,
+                                "src" :media.images.standard_resolution.url,
                                 "name":media.user.full_name
                             });
             });

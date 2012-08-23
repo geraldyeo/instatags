@@ -1,7 +1,7 @@
 {
   "name": "instawed",
   "author": "Gerald Yeo <gerald.yeo@gmail.com>",
-  "version": "0.0.2-38",
+  "version": "0.0.2-46",
   "description": "Node.js proof of concept of Instagram Realtime API",
   "main": "./app.js",
   "licenses": [
@@ -14,8 +14,13 @@
     "union": "0.3.x",
     "socket.io": "0.9.x",
     "instagram-node-lib": "0.0.9",
-    "ecstatic": "0.1.6"
+    "ecstatic": "0.1.6",
+    "redis": "0.7.x",
+    "nconf": "0.6.x"
   },
+  "bundledDependencies": [
+    "redis"
+  ],
   "subdomain": "instawed",
   "engines": {
     "node": "0.8.x"

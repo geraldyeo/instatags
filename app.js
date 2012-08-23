@@ -12,27 +12,51 @@
  */
 // requires
 var flatiron = require('flatiron'),
-    fs = require('fs'),
+    nconf = require('nconf'),
+    redis = require('redis'),
     ecstatic = require('ecstatic'),
     instagram = require('instagram-node-lib');
 
-// declarations
-var instagramClientId = '410dd489c1594bddb62c514cd600b590',
-    instagramClientSecret = 'c625acb0b72c417eabd2a709c0854138',
-    instagramRedirectUrl = 'http://instawed.jit.su/callback',
-    app = flatiron.app;
+//----- flatiron --------------------------------------------------
+var app = flatiron.app;
 
 app.use(flatiron.plugins.http, {
     before:[
         ecstatic(__dirname + '/public')
-    ],
-    after :[
     ]
 });
+
 app.router.configure({ 'strict':false });
 
+//----- redis server --------------------------------------------------
+nconf.file({ file:'./config/redisconfig.json' });
+
+var port = nconf.get('database:port'),
+    host = nconf.get('database:host'),
+    pass = nconf.get('database:password'),
+    redisClient = redis.createClient(port, host);
+
+redisClient.auth(pass, function (err) {
+    if (err) {
+        throw err;
+    }
+});
+
+redisClient.on('error', function (err) {
+    console.log("error event - " + redisClient.host + ":" + redisClient.port + " - " + err);
+});
+
+redisClient.on('ready', function () {
+    console.log("redis ready");
+});
 
 //----- instagram config --------------------------------------------------
+nconf.file({ file:'./config/instagramconfig.json' });
+
+var instagramClientId = nconf.get('id'),
+    instagramClientSecret = nconf.get('secret'),
+    instagramRedirectUrl = nconf.get('redirect_url');
+
 instagram.set('client_id', instagramClientId);
 instagram.set('client_secret', instagramClientSecret);
 instagram.set('callback_url', instagramRedirectUrl);
@@ -41,9 +65,23 @@ var loadRecent = function (note) {
     // Every notification object contains the id of the tag
     // that has been updated
     var cb = function (medias) {
-        console.log('send to client');
-        var raw = JSON.stringify(medias);
-        io.sockets.emit('photo', raw);
+        medias.forEach(function (media) {
+            redisClient.sadd('photoset', JSON.stringify(media));
+        });
+
+        redisClient.smembers('photoset', function (err, photos) {
+            if (!photos) {
+                photos = [];
+            }
+
+            var ret = [];
+            photos.forEach(function (photo) {
+                ret.push(JSON.parse(photo));
+            });
+
+            console.log('send to client', ret);
+            io.sockets.emit('photo', JSON.stringify(ret));
+        });
     };
 
     instagram.tags.recent({
