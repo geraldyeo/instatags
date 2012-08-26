@@ -67,28 +67,46 @@ instagram.set('callback_url', instagramRedirectUrl);
 var loadRecent = function (note) {
     // Every notification object contains the id of the tag
     // that has been updated
-    var cb = function (medias) {
+    redisClient.del('photoset', function (err) {
+        console.log("error del photoset - " + err);
+    });
+
+    var cb = function (medias, pagination) {
         medias.forEach(function (media) {
             redisClient.sadd('photoset', JSON.stringify(media));
         });
 
-        redisClient.smembers('photoset', function (err, photos) {
-            if (!photos) {
-                photos = [];
-            }
+        // buildup the cache of photos until the last one...
+        if (pagination.next_max_id) {
+            console.log('next_max_id:', pagination.next_max_id);
 
-            var ret = [];
-            photos.forEach(function (photo) {
-                ret.push(JSON.parse(photo));
+            instagram.tags.recent({
+                                      name    :note.object_id,
+                                      max_id  :pagination.next_max_id,
+                                      complete:cb
+                                  });
+        }
+        else {
+            redisClient.smembers('photoset', function (err, photos) {
+                if (!photos) {
+                    photos = [];
+                }
+
+                var ret = [];
+                photos.forEach(function (photo) {
+                    ret.push(JSON.parse(photo));
+                });
+
+                console.log('send to client');
+                io.sockets.emit('photo', JSON.stringify(ret));
             });
-
-            console.log('send to client', ret);
-            io.sockets.emit('photo', JSON.stringify(ret));
-        });
+        }
     };
 
+    // go
     instagram.tags.recent({
                               name    :note.object_id,
+                              max_id  :'',
                               complete:cb
                           });
 };
@@ -137,5 +155,5 @@ app.start(8080, function (err) {
 var io = require('socket.io').listen(app.server);
 io.sockets.on('connection', function (socket) {
     console.log("connected");
-    loadRecent({object_id:'sgig'});
+    loadRecent({object_id:'fuzztography'});
 });
