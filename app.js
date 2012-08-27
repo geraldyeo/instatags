@@ -58,7 +58,8 @@ nconf.file({ file:'./config/instagramconfig.json' });
 
 var instagramClientId = nconf.get('id'),
     instagramClientSecret = nconf.get('secret'),
-    instagramRedirectUrl = nconf.get('redirect_url');
+    instagramRedirectUrl = nconf.get('redirect_url'),
+    tagname = '10111';
 
 instagram.set('client_id', instagramClientId);
 instagram.set('client_secret', instagramClientSecret);
@@ -155,5 +156,5 @@ app.start(8080, function (err) {
 var io = require('socket.io').listen(app.server);
 io.sockets.on('connection', function (socket) {
     console.log("connected");
-    loadRecent({object_id:'fuzztography'});
+    loadRecent({object_id:tagname});
 });

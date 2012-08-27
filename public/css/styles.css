@@ -1,0 +1,135 @@
+.slider.memento {
+    background : black;
+    color      : white;
+}
+
+.slider.memento .caption {
+    background : rgba(0, 0, 0, 0.5);
+}
+
+.slider.memento .options {
+    display : none;
+}
+
+.slider.memento .loader .spinner {
+    background : url(../js/sliderjs/load_dark.gif) no-repeat;
+}
+
+/*index*/
+html, body {
+    height : 100%;
+    margin : 0;
+}
+
+header {
+    background : #CCC;
+    height     : 50px;
+}
+
+footer .wrapper {
+    text-align : center;
+    width      : 582px;
+    margin     : 0 auto;
+    padding    : 0 15px;
+}
+
+footer {
+    clear      : both;
+    bottom     : 0;
+    height     : 50px;
+    left       : 0;
+    position   : absolute;
+    right      : 0;
+    background : #CCC;
+}
+
+.root {
+    min-height : 100%;
+    position   : relative;
+}
+
+.img, .img-inset {
+    position : relative;
+    display  : inline-block
+}
+
+.img-inset {
+    -webkit-border-radius   : 3px;
+    -moz-border-radius      : 3px;
+    -khtml-border-radius    : 3px;
+    border-radius           : 3px;
+    background              : no-repeat 0 0;
+    -webkit-background-size : 100%;
+    -moz-background-size    : 100%;
+    -khtml-background-size  : 100%;
+    -o-background-size      : 100%;
+    background-size         : 100%;
+}
+
+span.img-inset {
+    -webkit-box-shadow : 0 1px 0 rgba(255, 255, 255, 0.4), 0 1px 0 1px rgba(255, 255, 255, 0.1);
+    -moz-box-shadow    : 0 1px 0 rgba(255, 255, 255, 0.4), 0 1px 0 1px rgba(255, 255, 255, 0.1);
+    -ms-box-shadow     : 0 1px 0 rgba(255, 255, 255, 0.4), 0 1px 0 1px rgba(255, 255, 255, 0.1);
+    -o-box-shadow      : 0 1px 0 rgba(255, 255, 255, 0.4), 0 1px 0 1px rgba(255, 255, 255, 0.1);
+    box-shadow         : 0 1px 0 rgba(255, 255, 255, 0.4), 0 1px 0 1px rgba(255, 255, 255, 0.1)
+}
+
+.media-inner {
+    width          : 612px;
+    margin         : 35px auto;
+    padding-bottom : 50px; /* height of footer */
+}
+
+.media-info {
+    position : relative;
+    overflow : hidden;
+    width    : 100%
+}
+
+.media-user {
+    float   : left;
+    height  : 40px;
+    padding : 20px 0 0 45px;
+    margin  : 0;
+}
+
+.media-user h2 {
+    font-family  : 'Helvetica Neue', Arial, Helvetica, sans-serif;
+    padding-left : 0;
+    margin       : 5px 0;
+    position     : relative;
+    z-index      : 15;
+    display      : inline-block;
+}
+
+.user-avatar, .heart {
+    width  : 40px;
+    height : 40px;
+}
+
+.media-user .user-avatar {
+    position : absolute;
+    left     : 0;
+    top      : 20px;
+}
+
+.media-likes {
+    float   : right;
+    height  : 40px;
+    padding : 20px 0 0 45px;
+    margin  : 0;
+}
+
+.media-likes h2 {
+    font-family : 'Helvetica Neue', Arial, Helvetica, sans-serif;
+    margin      : 5px;
+    float       : left;
+    position    : relative;
+    display     : inline-block;
+}
+
+.media-likes .heart {
+    float            : right;
+    background-image : url(heart.png);
+}
+
