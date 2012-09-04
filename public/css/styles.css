@@ -1,6 +1,6 @@
 .slider.memento {
-    background : black;
-    color      : white;
+    background : #C8E7E8;
+    color      : #333;
 }
 
 .slider.memento .caption {
@@ -11,19 +11,52 @@
     display : none;
 }
 
+.slider.memento .loader {
+    height: 100%;
+}
+
 .slider.memento .loader .spinner {
-    background : url(../js/sliderjs/load_dark.gif) no-repeat;
+    background : url(../js/sliderjs/load_light.gif) no-repeat;
 }
 
 /*index*/
 html, body {
-    height : 100%;
-    margin : 0;
+    color       : #666;
+    background  : #CFCDC8;
+    font-family : 'Cabin Condensed', Arial, Helvetica, sans-serif;
+    height      : 100%;
+    margin      : 0;
 }
 
 header {
-    background : #CCC;
+    background : #F7F7F7;
     height     : 50px;
+}
+
+header h1 {
+    margin : 0;
+}
+
+header .logo {
+    font-family : 'Rouge Script', cursive;
+}
+
+header .wrapper {
+    width   : 612px;
+    margin  : 0 auto;
+    padding : 0;
+}
+
+footer {
+    font-size   : small;
+    font-weight : bold;
+    clear       : both;
+    bottom      : 0;
+    height      : 50px;
+    left        : 0;
+    position    : absolute;
+    right       : 0;
+    background  : #F7F7F7;
 }
 
 footer .wrapper {
@@ -31,16 +64,6 @@ footer .wrapper {
     width      : 582px;
     margin     : 0 auto;
     padding    : 0 15px;
-}
-
-footer {
-    clear      : both;
-    bottom     : 0;
-    height     : 50px;
-    left       : 0;
-    position   : absolute;
-    right      : 0;
-    background : #CCC;
 }
 
 .root {
@@ -74,27 +97,39 @@ span.img-inset {
     box-shadow         : 0 1px 0 rgba(255, 255, 255, 0.4), 0 1px 0 1px rgba(255, 255, 255, 0.1)
 }
 
-.media-inner {
-    width          : 612px;
-    margin         : 35px auto;
+.main {
     padding-bottom : 50px; /* height of footer */
 }
 
+.media-photos {
+    width  : 612px;
+    height : 612px;
+}
+
+.media-inner {
+    background : #C8E7E8;
+    width      : 612px;
+    height     : 692px;
+    margin     : 10px auto;
+    padding    : 20px;
+}
+
 .media-info {
-    position : relative;
-    overflow : hidden;
-    width    : 100%
+    position   : relative;
+    overflow   : hidden;
+    width      : 100%;
+    background : #968778;
+    color      : #333;
 }
 
 .media-user {
     float   : left;
     height  : 40px;
-    padding : 20px 0 0 45px;
+    padding : 20px 0 20px 65px;
     margin  : 0;
 }
 
 .media-user h2 {
-    font-family  : 'Helvetica Neue', Arial, Helvetica, sans-serif;
     padding-left : 0;
     margin       : 5px 0;
     position     : relative;
@@ -109,23 +144,23 @@ span.img-inset {
 
 .media-user .user-avatar {
     position : absolute;
-    left     : 0;
+    left     : 20px;
     top      : 20px;
 }
 
 .media-likes {
+
     float   : right;
     height  : 40px;
-    padding : 20px 0 0 45px;
+    padding : 20px 20px 20px 0;
     margin  : 0;
 }
 
 .media-likes h2 {
-    font-family : 'Helvetica Neue', Arial, Helvetica, sans-serif;
-    margin      : 5px;
-    float       : left;
-    position    : relative;
-    display     : inline-block;
+    margin   : 5px;
+    float    : left;
+    position : relative;
+    display  : inline-block;
 }
 
 .media-likes .heart {

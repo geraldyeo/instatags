@@ -59,13 +59,16 @@ nconf.file({ file:'./config/instagramconfig.json' });
 var instagramClientId = nconf.get('id'),
     instagramClientSecret = nconf.get('secret'),
     instagramRedirectUrl = nconf.get('redirect_url'),
-    tagname = '10111';
+    tagname = 'jemlynn2012',
+    count = 0;
 
 instagram.set('client_id', instagramClientId);
 instagram.set('client_secret', instagramClientSecret);
 instagram.set('callback_url', instagramRedirectUrl);
 
 var loadRecent = function (note) {
+    count = 0;
+
     // Every notification object contains the id of the tag
     // that has been updated
     redisClient.del('photoset', function (err) {
@@ -82,7 +85,7 @@ var loadRecent = function (note) {
             console.log('next_max_id:', pagination.next_max_id);
 
             instagram.tags.recent({
-                                      name    :note.object_id,
+                                      name    :tagname,
                                       max_id  :pagination.next_max_id,
                                       complete:cb
                                   });
@@ -98,7 +101,7 @@ var loadRecent = function (note) {
                     ret.push(JSON.parse(photo));
                 });
 
-                console.log('send to client');
+                console.log('send to client, # of medias', ret.length);
                 io.sockets.emit('photo', JSON.stringify(ret));
             });
         }
@@ -106,7 +109,7 @@ var loadRecent = function (note) {
 
     // go
     instagram.tags.recent({
-                              name    :note.object_id,
+                              name    :tagname,
                               max_id  :'',
                               complete:cb
                           });
@@ -136,8 +139,13 @@ app.router.path('/callback', function () {
     // with tags of your choosing.
     this.post(function () {
         console.log('received photo notifications');
-        this.req.body.forEach(loadRecent);
+        //this.req.body.forEach(loadRecent);
         this.res.writeHead(200);
+
+        count++;
+        if (count > 9) {
+            loadRecent({object_id:tagname});
+        }
     });
 });
 
@@ -157,4 +165,10 @@ var io = require('socket.io').listen(app.server);
 io.sockets.on('connection', function (socket) {
     console.log("connected");
     loadRecent({object_id:tagname});
+
+//    socket.on('start_iniload', function () {
+//        console.log("start initial load");
+//        loadRecent({object_id:tagname});
+//    });
 });
+
