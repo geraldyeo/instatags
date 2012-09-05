@@ -3,8 +3,8 @@
     "port"    :8080,
     "host"    :"0.0.0.0",
     "database":{
-        "port"    :9047,
-        "host"    :"char.redistogo.com",
-        "password":"1dad48923247fe85415a4858c5af2816"
+        "port"    :9460,
+        "host"    :"barb.redistogo.com",
+        "password":"56d306bc1f2764e385e06df8fde9a38a"
     }
 }

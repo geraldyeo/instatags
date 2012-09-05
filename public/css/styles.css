@@ -1,5 +1,5 @@
 .slider.memento {
-    background : #C8E7E8;
+    background : #935B4E;
     color      : #333;
 }
 
@@ -12,24 +12,24 @@
 }
 
 .slider.memento .loader {
-    height: 100%;
+    height : 100%;
 }
 
 .slider.memento .loader .spinner {
-    background : url(../js/sliderjs/load_light.gif) no-repeat;
+    background : url(../js/sliderjs/load_dark.gif) no-repeat;
 }
 
 /*index*/
 html, body {
     color       : #666;
-    background  : #CFCDC8;
+    background  : #EAB2A1;
     font-family : 'Cabin Condensed', Arial, Helvetica, sans-serif;
     height      : 100%;
     margin      : 0;
 }
 
 header {
-    background : #F7F7F7;
+    background : #F8F3EF;
     height     : 50px;
 }
 
@@ -56,7 +56,7 @@ footer {
     left        : 0;
     position    : absolute;
     right       : 0;
-    background  : #F7F7F7;
+    background  : #F8F3EF;
 }
 
 footer .wrapper {
@@ -107,7 +107,7 @@ span.img-inset {
 }
 
 .media-inner {
-    background : #C8E7E8;
+    background : #F8F3EF;
     width      : 612px;
     height     : 692px;
     margin     : 10px auto;
@@ -118,7 +118,7 @@ span.img-inset {
     position   : relative;
     overflow   : hidden;
     width      : 100%;
-    background : #968778;
+    background : #777368;
     color      : #333;
 }
 
