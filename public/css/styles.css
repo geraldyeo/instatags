@@ -35,10 +35,12 @@ header {
 
 header h1 {
     margin : 0;
+    padding-top: 5px;
+    font-weight: normal;
 }
 
 header .logo {
-    font-family : 'Rouge Script', cursive;
+    font-family : 'Great Vibes', cursive;
 }
 
 header .wrapper {
@@ -119,7 +121,7 @@ span.img-inset {
     overflow   : hidden;
     width      : 100%;
     background : #777368;
-    color      : #333;
+    color      : #F8F3EF;
 }
 
 .media-user {
